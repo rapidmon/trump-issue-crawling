@@ -1,0 +1,45 @@
+name: Auto News Scraper
+
+on:
+  schedule:
+    # 매일 한국시간 오전 9시 (UTC 0시) 실행, 일요일 제외
+    - cron: '0 0 * * 1-6'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Run news scraper
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      run: |
+        python auto_enhanced.py
+    
+    - name: Create results directory
+      run: mkdir -p results
+    
+    - name: Save results log
+      run: |
+        echo "News scraping completed at $(date)" > results/last_run.txt
+    
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: news-results-$(date +%Y%m%d)
+        path: results/
+        retention-days: 30
