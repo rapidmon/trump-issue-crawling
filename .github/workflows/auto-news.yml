@@ -28,7 +28,7 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
       run: |
-        python auto_enhanced.py
+        python auto.py
     
     - name: Create results directory
       run: mkdir -p results
