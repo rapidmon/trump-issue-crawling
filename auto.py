@@ -53,13 +53,7 @@ def get_google_docs_service():
     return service
 
 def get_target_date():
-    """오늘 날짜를 가져오되, 일요일인 경우 다음 날(월요일)로 설정"""
     today = datetime.now()
-    
-    # 일요일(6)인 경우 다음 날로
-    if today.weekday() == 6:  # 일요일
-        today = today + timedelta(days=1)
-    
     return today.strftime('%Y%m%d'), today.strftime('%m%d')
 
 def fetch_links(date_str):
@@ -276,10 +270,9 @@ def update_google_doc(date_display, json_results):
 
 def job():
     """메인 실행 함수"""
-    # 일요일 체크 (혹시 수동 실행되는 경우를 대비)
     today = datetime.now()
-    if today.weekday() == 6:  # 일요일
-        print("일요일이므로 실행하지 않습니다.")
+    if today.weekday() == 6:
+        print("일요일엔 실행하지 않습니다.")
         return
     
     full_date, display_date = get_target_date()
