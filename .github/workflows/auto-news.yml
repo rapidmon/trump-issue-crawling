@@ -1,9 +1,9 @@
 name: Auto News Scraper
 
 on:
-  schedule:
-    # 매일 한국시간 오전 10시 30분 (UTC 0시) 실행, 일요일 제외
-    - cron: '30 1 * * *'
+  # schedule:
+  #   # 매일 한국시간 오전 10시 30분 (UTC 0시) 실행, 일요일 제외
+  #   - cron: '30 1 * * *'
   workflow_dispatch: # 수동 실행 가능
 
 jobs:
